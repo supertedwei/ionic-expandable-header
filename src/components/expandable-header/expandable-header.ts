@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'expandable-header',
@@ -6,11 +6,18 @@ import { Component } from '@angular/core';
 })
 export class ExpandableHeader {
 
-  text: string;
+  @Input('scrollArea') scrollArea: any;
 
   constructor() {
-    console.log('Hello ExpandableHeader Component');
-    this.text = 'Hello World';
+
+  }
+
+  ngOnInit() {
+    console.log(this.scrollArea)
+
+    this.scrollArea.ionScroll.subscribe((ev) => {
+      console.log(ev)
+    })
   }
 
 }
