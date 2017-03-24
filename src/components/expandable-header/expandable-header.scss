@@ -2,5 +2,6 @@ expandable-header {
 
     display: block;
     background-color: map-get($colors, light);
+    overflow: hidden;
 
 }
