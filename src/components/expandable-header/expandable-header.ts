@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, Renderer } from '@angular/core';
 
 @Component({
   selector: 'expandable-header',
@@ -8,7 +8,14 @@ export class ExpandableHeader {
 
   @Input('scrollArea') scrollArea: any;
 
-  constructor() {
+  headerHeight: any;
+  newHeaderHeight
+
+  constructor(public element: ElementRef, public renderer: Renderer) {
+
+    this.headerHeight = 150
+
+    this.renderer.setElementStyle(this.element.nativeElement, 'height', this.headerHeight + 'px')
 
   }
 
@@ -16,8 +23,26 @@ export class ExpandableHeader {
     console.log(this.scrollArea)
 
     this.scrollArea.ionScroll.subscribe((ev) => {
-      console.log(ev)
+      this.resizeHeader(ev);
     })
+  }
+
+  resizeHeader(ev) {
+
+    ev.domWrite(() => {
+
+      console.log(ev.scrollTop)
+
+      this.newHeaderHeight = this.headerHeight - ev.scrollTop
+
+      if(this.newHeaderHeight < 0){
+        this.newHeaderHeight = 0;
+      }  
+
+      this.renderer.setElementStyle(this.element.nativeElement, 'height', this.newHeaderHeight + 'px');
+
+    })
+
   }
 
 }
