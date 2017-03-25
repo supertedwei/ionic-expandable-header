@@ -31,15 +31,26 @@ export class ExpandableHeader {
 
     ev.domWrite(() => {
 
-      console.log(ev.scrollTop)
-
       this.newHeaderHeight = this.headerHeight - ev.scrollTop
 
       if(this.newHeaderHeight < 0){
         this.newHeaderHeight = 0;
-      }  
+      } 
 
       this.renderer.setElementStyle(this.element.nativeElement, 'height', this.newHeaderHeight + 'px');
+
+      for (let headerElement of this.element.nativeElement.children) {
+        
+        let totalHeight = headerElement.offsetTop + headerElement.clientHeight
+
+        if (totalHeight > this.newHeaderHeight) {
+          this.renderer.setElementStyle(headerElement, 'opacity', '0');
+        }  else {
+          this.renderer.setElementStyle(headerElement, 'opacity', '1');
+        }
+
+      }
+
 
     })
 
